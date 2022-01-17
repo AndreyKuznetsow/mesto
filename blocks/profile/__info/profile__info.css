@@ -1,0 +1,10 @@
+.profile__info {
+  margin-left: 30px;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 570px) {
+  .profile__info {
+    margin: 0;
+  }
+}
