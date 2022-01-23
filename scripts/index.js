@@ -5,13 +5,13 @@ let openPopup = document.querySelector ('.popup');
 
 let formElement = document.querySelector ('.popup__container');
 let closePopupButton = formElement.querySelector ('.popup__close');
-let nameInput = formElement.querySelector ('.popup__input-name');
-let jobInput = formElement.querySelector ('.popup__input-profession');
+let nameInput = formElement.querySelector ('.popup__input_name');
+let jobInput = formElement.querySelector ('.popup__input_profession');
 
 function popupOpenFunc () {
-    openPopup.classList.add ('popup_opened');
-    nameInput.setAttribute ('value', profileName.textContent);
-    jobInput.setAttribute ('value', profileProfession.textContent);
+  openPopup.classList.add ('popup_opened');
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileProfession.textContent;
 };
 
 function popupCloseFunc () {

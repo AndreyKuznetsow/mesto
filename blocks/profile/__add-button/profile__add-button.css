@@ -24,7 +24,7 @@
     display: block;
     margin: 0 auto;
     min-width: 282px;
-    background-image: url(../../../images/add-button_mobile.svg);
+    background-size: 16px;
   }
 }
 
