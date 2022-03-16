@@ -1,3 +1,7 @@
 .element__foto {
-  width: 100%;    
+  width: 282px;
+  height: 282px;
+  margin: 0 auto;
+  cursor: pointer;
+  object-fit:cover;
 }
