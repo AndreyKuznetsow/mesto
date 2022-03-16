@@ -136,8 +136,8 @@ function hendleDelete(event) {
 
 const openPopupImageView = document.querySelector('.popup_Image');
 const closePopupImageView = openPopupImageView.querySelector('.popup__close');
-const viewUrl = openPopupImageView.querySelector('.element__foto');
-const viewCaption = openPopupImageView.querySelector('.element__caption');
+const viewUrl = openPopupImageView.querySelector('.popup__foto');
+const viewCaption = openPopupImageView.querySelector('.popup__caption');
 
 closePopupImageView.addEventListener('click', сlosePopupImageViewFunc);
 

@@ -1,6 +1,9 @@
-.element__caption_view {
+.popup__caption {
+  margin: 0;
+  padding: 0;
   position: absolute;
   bottom: -22px;
+  font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
