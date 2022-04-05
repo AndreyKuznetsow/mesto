@@ -54,7 +54,6 @@ function closePopupProfileFunc () {
 };
 
 function openPopupFunc (popup) {
-  console.log(popup);
   popup.classList.add ('popup_opened');
   document.addEventListener('keydown', (evt) => {closeEscFunc (evt, popup)});
   if (popup.classList.contains('popup_profile') || popup.classList.contains('popup_new-element')) {
