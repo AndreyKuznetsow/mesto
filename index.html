@@ -35,26 +35,30 @@
     </footer>
 
     <div class="popup popup_profile">
-      <form class="popup__container" name="edit-profile" action="/">
+      <form class="popup__container" name="edit-profile" action="/" novalidate>
         <button aria-label="Закрыть" class="popup__close" type="button" ></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input class="popup__input popup__input_type_name" type="text" name="name" value="">
-        <input class="popup__input popup__input_type_profession" type="text" name="profession" value="">
-        <button class="popup__submit" type="submit" aria-label="Сохранить">Сохранить</button>
+        <input id="name-input" class="popup__input popup__input_type_name" type="text" name="name" value="" minlength="2" maxlength="40" required>
+        <span class="name-input-error popup__input-error"></span>
+        <input id="profession-input" class="popup__input popup__input_type_profession" type="text" name="profession" value="" minlength="2" maxlength="200" required>
+        <span class="profession-input-error popup__input-error"></span>
+        <button class="popup__submit popup__submit_inactive" type="submit" aria-label="Сохранить" disabled>Сохранить</button>
       </form>
     </div>
 
     <div class="popup popup_new-element">
-      <form class="popup__container" name="add-new-place" action="/">
+      <form class="popup__container " name="add-new-place" action="/" novalidate>
         <button aria-label="Закрыть" class="popup__close" type="button" ></button>
         <h2 class="popup__title">Новое место</h2>
-        <input class="popup__input popup__input_type_caption" type="text" name="caption" value="" placeholder="Название">
-        <input class="popup__input popup__input_type_url" type="text" name="url" value="" placeholder="Ссылка на картинку">
-        <button class="popup__submit" type="submit" aria-label="Сохранить">Сохранить</button>
+        <input id="caption-input" class="popup__input popup__input_type_caption" type="text" name="caption" value="" placeholder="Название" minlength="2" maxlength="30" required>
+        <span class="caption-input-error popup__input-error"></span>
+        <input id="url-input" class="popup__input popup__input_type_url" type="url" name="url" value="" placeholder="Ссылка на картинку" required>
+        <span class="url-input-error popup__input-error"></span>
+        <button class="popup__submit popup__submit_inactive" type="submit" aria-label="Создать" disabled>Создать</button>
       </form>
     </div>
 
-    <div class="popup popup_Image">
+    <div class="popup popup_image">
       <div class="popup__container popup__container_image-view">
         <button aria-label="Закрыть" class="popup__close" type="button" ></button>
         <img class="popup__foto" alt="Красивый пейзаж" src="#">
@@ -76,5 +80,6 @@
   </div>
   <script src="./scripts/card.js"></script>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 </html>
