@@ -54,11 +54,14 @@ function closePopupProfileFunc () {
 };
 
 function openPopupFunc (popup) {
+  console.log(popup);
   popup.classList.add ('popup_opened');
   document.addEventListener('keydown', (evt) => {closeEscFunc (evt, popup)});
-  const buttonElement = popup.querySelector('.popup__submit');
-  buttonElement.setAttribute('disabled', true);
-  buttonElement.classList.add('popup__submit_inactive');
+  if (popup.classList.contains('popup_profile') || popup.classList.contains('popup_new-element')) {
+   const buttonElement = popup.querySelector('.popup__submit');
+   buttonElement.setAttribute('disabled', true);
+   buttonElement.classList.add('popup__submit_inactive');
+  };
 };
 
 function closePopupFunc (popup) {
