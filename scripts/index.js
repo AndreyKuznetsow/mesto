@@ -1,5 +1,32 @@
-import { initialCards, Card } from './Card.js';
+import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 const config = {
   inputSelector: '.popup__input',
@@ -10,14 +37,16 @@ const config = {
 };
 
 const initialCardsReversed = initialCards.reverse();
-const elements = document.querySelector('.elements');
+const cardsContainer = document.querySelector('.elements');
+const template = document.querySelector('.template').content;
 
 function renderInitialCard() {
   initialCardsReversed.forEach((card) => {
-    const newCard = new Card(card, elements);
-    newCard.render();
+    const newCard = new Card(card, template, openPopupImageViewFunc);
+    cardsContainer.prepend(newCard.createCard());   
   });
 };
+
 renderInitialCard();
 
 //Profile popup
@@ -26,11 +55,9 @@ const profileEditButton = document.querySelector ('.profile__edit-button');
 const profileName = document.querySelector ('.profile__name');
 const profileProfession = document.querySelector ('.profile__profession');
 const popupProfile = document.querySelector ('.popup_profile');
-
 const formProfile = popupProfile.querySelector ('.popup__container');
 const nameInput = formProfile.querySelector ('.popup__input_type_name');
 const jobInput = formProfile.querySelector ('.popup__input_type_profession');
-
 
 const profileValidator = new FormValidator (config, popupProfile);
 profileValidator.enableValidation();
@@ -39,8 +66,7 @@ function openPopupProfile () {
   openPopup (popupProfile);
   nameInput.value = profileName.textContent;
   jobInput.value = profileProfession.textContent;
-  resetFofm(popupProfile, nameInput);
-  resetFofm(popupProfile, jobInput);
+  profileValidator.resetFofm();
   const buttonElement = popupProfile.querySelector('.popup__submit');
   buttonElement.setAttribute('disabled', true);
   buttonElement.classList.add('popup__submit_inactive');
@@ -56,7 +82,7 @@ function closePopup (popup) {
   popup.classList.remove ('popup_opened');  
 };
 
-function updateFormProfile (evt) {
+function updateFormProfile () {
   profileName.textContent = nameInput.value;
   profileProfession.textContent = jobInput.value;
   closePopup (popupProfile);
@@ -84,8 +110,8 @@ function createNewElement(evt) {
     name: captionInput.value,
     link: urlInput.value
   };
-  const newCard = new Card (newItem, elements);
-  newCard.render();
+  const newCard = new Card (newItem, template, openPopupImageViewFunc);
+  cardsContainer.prepend(newCard.createCard());
   closePopup (popupNewElement);
 };
 
@@ -93,8 +119,7 @@ function openPopupNewElement () {
   captionInput.value = '';
   urlInput.value = '';
   openPopup (popupNewElement);
-  resetFofm (popupNewElement, captionInput);
-  resetFofm (popupNewElement, urlInput);
+  newElementValidator.resetFofm();
   const buttonElement = popupNewElement.querySelector('.popup__submit');
   buttonElement.setAttribute('disabled', true);
   buttonElement.classList.add('popup__submit_inactive');
@@ -111,7 +136,7 @@ function closeByEsc (evt) {
 
 // Закрытие popup по клику по оверлею и кнопке "Закрыть"
 
-const popups = document.querySelectorAll('.popup_input');
+const popups = document.querySelectorAll('.popup');
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close')) {
@@ -120,11 +145,13 @@ popups.forEach((popup) => {
   });
 })
 
-// Функция, которая удаляет ошибки при повторном открытии
-
-function resetFofm (formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__input-error_active');
-  errorElement.textContent = '';
+//Открытие предосмотра
+function openPopupImageViewFunc(text) {
+  const popupImageView = document.querySelector('.popup_image');
+  const viewUrl = popupImageView.querySelector('.popup__foto');
+  const viewCaption = popupImageView.querySelector('.popup__caption');
+  viewUrl.src = text.link;
+  viewUrl.alt = text.name;
+  viewCaption.textContent = text.name;
+  openPopup(popupImageView);
 };

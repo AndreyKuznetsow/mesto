@@ -1,63 +1,73 @@
 export class FormValidator {
+
   constructor (config, currentForm) {
     this._form = currentForm;
     this._config = config;
+    this._inputList = Array.from(this._form.querySelectorAll(config.inputSelector));
+    this._buttonElement = this._form.querySelector(config.submitSelector);
   };
 
   enableValidation () {   
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    this._setEventListeners(this._form, this._config);
+    this._setEventListeners();
   };
 
-  _setEventListeners = (formElement,  config) => {
-    const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-    const buttonElement = formElement.querySelector(config.submitSelector);
-    this._toggleButtonState(inputList, buttonElement, config);
-    inputList.forEach((inputElement) => {
+  _setEventListeners = () => {
+    this._toggleButtonState();
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
-        this._isValid(formElement, inputElement, config);
-        this._toggleButtonState(inputList, buttonElement, config);
+        this._isValid(inputElement);
+        this._toggleButtonState();
       });
     });
   };
 
-  _toggleButtonState(inputList, buttonElement, config) {
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(config.submitInactiveSelector);
-      buttonElement.setAttribute('disabled', true);
+  _toggleButtonState() {
+    if (this._hasInvalidInput(this._inputList)) {
+      this._buttonElement.classList.add(this._config.submitInactiveSelector);
+      this._buttonElement.setAttribute('disabled', true);
     } else {
-        buttonElement.classList.remove(config.submitInactiveSelector);
-        buttonElement.removeAttribute('disabled');
+      this._buttonElement.classList.remove(this._config.submitInactiveSelector);
+      this._buttonElement.removeAttribute('disabled');
       };
   };
 
-  _isValid = (formElement, inputElement, config) => {
+  _isValid = (inputElement) => {
     if (!inputElement.validity.valid) {
-      this._showInputError(formElement, inputElement, inputElement.validationMessage, config);
+      this._showInputError(inputElement, inputElement.validationMessage);
     } else {
-        this._hideInputError(formElement, inputElement, config);
+        this._hideInputError(inputElement);
       }
   };
 
-  _showInputError = (formElement, inputElement, errorMessage, config) => {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  _showInputError = (inputElement, errorMessage) => {
+    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
     errorElement.textContent = errorMessage;
-    inputElement.classList.add(config.inputTypeError);
-    errorElement.classList.add(config.errorCaption);
+    inputElement.classList.add(this._config.inputTypeError);
+    errorElement.classList.add(this._config.errorCaption);
   };
 
-  _hideInputError = (formElement, inputElement, config) => {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(config.inputTypeError);
-    errorElement.classList.remove(config.errorCaption);
+  _hideInputError = (inputElement) => {
+    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove(this._config.inputTypeError);
+    errorElement.classList.remove(this._config.errorCaption);
     errorElement.textContent = '';
   };
 
-  _hasInvalidInput (inputhList) {
-    return inputhList.some((inputElement) => {
+  _hasInvalidInput () {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
+  };
+
+  resetFofm () {
+    this._inputList.forEach((inputElement) => {
+    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove('popup__input_type_error');
+    errorElement.classList.remove('popup__input-error_active');
+    errorElement.textContent = '';
+    });
   };
 };

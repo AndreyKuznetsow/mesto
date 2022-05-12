@@ -1,3 +1,9 @@
 .popup__input-error_active {
   visibility: visible;
 }
+
+@media screen and (max-width: 520px) {
+  .popup__input-error_active {
+    margin-left: 22px;
+  }
+}
