@@ -63,11 +63,8 @@ export class FormValidator {
   };
 
   resetFofm () {
-    this._inputList.forEach((inputElement) => {
-    const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove('popup__input_type_error');
-    errorElement.classList.remove('popup__input-error_active');
-    errorElement.textContent = '';
-    });
+    this._buttonElement.setAttribute('disabled', true);
+    this._buttonElement.classList.add('popup__submit_inactive');
+    this._inputList.forEach((inputElement) => this._hideInputError(inputElement));     
   };
 };

@@ -42,10 +42,14 @@ const template = document.querySelector('.template').content;
 
 function renderInitialCard() {
   initialCardsReversed.forEach((card) => {
-    const newCard = new Card(card, template, openPopupImageViewFunc);
-    cardsContainer.prepend(newCard.createCard());   
+    cardsContainer.prepend(createNewCard(card).createCard());   
   });
 };
+
+function createNewCard(card) {
+  const newCard = new Card(card, template, openPopupImageViewFunc);
+  return newCard
+}
 
 renderInitialCard();
 
@@ -67,9 +71,7 @@ function openPopupProfile () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileProfession.textContent;
   profileValidator.resetFofm();
-  const buttonElement = popupProfile.querySelector('.popup__submit');
-  buttonElement.setAttribute('disabled', true);
-  buttonElement.classList.add('popup__submit_inactive');
+ 
 };
 
 function openPopup (popup) {
@@ -110,8 +112,7 @@ function createNewElement(evt) {
     name: captionInput.value,
     link: urlInput.value
   };
-  const newCard = new Card (newItem, template, openPopupImageViewFunc);
-  cardsContainer.prepend(newCard.createCard());
+  cardsContainer.prepend(createNewCard(newItem).createCard());
   closePopup (popupNewElement);
 };
 
@@ -120,9 +121,6 @@ function openPopupNewElement () {
   urlInput.value = '';
   openPopup (popupNewElement);
   newElementValidator.resetFofm();
-  const buttonElement = popupNewElement.querySelector('.popup__submit');
-  buttonElement.setAttribute('disabled', true);
-  buttonElement.classList.add('popup__submit_inactive');
 };
 
 //Закрытие popup по кнопке Esc 
@@ -146,10 +144,12 @@ popups.forEach((popup) => {
 })
 
 //Открытие предосмотра
-function openPopupImageViewFunc(text) {
-  const popupImageView = document.querySelector('.popup_image');
-  const viewUrl = popupImageView.querySelector('.popup__foto');
-  const viewCaption = popupImageView.querySelector('.popup__caption');
+
+const popupImageView = document.querySelector('.popup_image');
+const viewUrl = popupImageView.querySelector('.popup__foto');
+const viewCaption = popupImageView.querySelector('.popup__caption');
+
+function openPopupImageViewFunc(text) {  
   viewUrl.src = text.link;
   viewUrl.alt = text.name;
   viewCaption.textContent = text.name;
