@@ -42,13 +42,13 @@ const template = document.querySelector('.template').content;
 
 function renderInitialCard() {
   initialCardsReversed.forEach((card) => {
-    cardsContainer.prepend(createNewCard(card).createCard());   
+    cardsContainer.prepend(createNewCard(card));   
   });
 };
 
 function createNewCard(card) {
   const newCard = new Card(card, template, openPopupImageViewFunc);
-  return newCard
+  return newCard.createCard();
 }
 
 renderInitialCard();
@@ -66,12 +66,11 @@ const jobInput = formProfile.querySelector ('.popup__input_type_profession');
 const profileValidator = new FormValidator (config, popupProfile);
 profileValidator.enableValidation();
 
-function openPopupProfile () {
-  openPopup (popupProfile);
+function openPopupProfile () {  
   nameInput.value = profileName.textContent;
   jobInput.value = profileProfession.textContent;
   profileValidator.resetFofm();
- 
+  openPopup (popupProfile); 
 };
 
 function openPopup (popup) {
@@ -112,13 +111,12 @@ function createNewElement(evt) {
     name: captionInput.value,
     link: urlInput.value
   };
-  cardsContainer.prepend(createNewCard(newItem).createCard());
+  cardsContainer.prepend(createNewCard(newItem));
   closePopup (popupNewElement);
 };
 
 function openPopupNewElement () {
-  captionInput.value = '';
-  urlInput.value = '';
+  formNewElement.reset();
   openPopup (popupNewElement);
   newElementValidator.resetFofm();
 };

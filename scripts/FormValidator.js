@@ -63,8 +63,7 @@ export class FormValidator {
   };
 
   resetFofm () {
-    this._buttonElement.setAttribute('disabled', true);
-    this._buttonElement.classList.add('popup__submit_inactive');
+    this._toggleButtonState();
     this._inputList.forEach((inputElement) => this._hideInputError(inputElement));     
   };
 };
